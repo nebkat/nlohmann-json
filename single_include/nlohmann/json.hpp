@@ -11456,6 +11456,7 @@ class binary_reader
                 return sax->null();
 
             case 'U':
+            case 'B':
             {
                 std::uint8_t number{};
                 return get_number(input_format, number) && sax->number_unsigned(number);
@@ -11675,6 +11676,13 @@ class binary_reader
             }
 
             return (sax->end_array() && sax->end_object());
+        }
+
+        // If BJData type marker is 'B' decode as binary
+        if (input_format == input_format_t::bjdata && size_and_type.first != npos && size_and_type.second == 'B')
+        {
+            binary_t result;
+            return get_binary(input_format, size_and_type.first, result) && sax->binary(result);
         }
 
         if (size_and_type.first != npos)
@@ -15890,7 +15898,7 @@ class binary_writer
                 {
                     JSON_ASSERT(use_count);
                     oa->write_character(to_char_type('$'));
-                    oa->write_character('U');
+                    oa->write_character(use_bjdata ? 'B' : 'U');
                 }
 
                 if (use_count)
@@ -15909,7 +15917,7 @@ class binary_writer
                 {
                     for (size_t i = 0; i < j.m_data.m_value.binary->size(); ++i)
                     {
-                        oa->write_character(to_char_type('U'));
+                        oa->write_character(to_char_type(use_bjdata ? 'B' : 'U'));
                         oa->write_character(j.m_data.m_value.binary->data()[i]);
                     }
                 }

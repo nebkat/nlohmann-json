@@ -2311,6 +2311,7 @@ class binary_reader
                 return sax->null();
 
             case 'U':
+            case 'B':
             {
                 std::uint8_t number{};
                 return get_number(input_format, number) && sax->number_unsigned(number);
@@ -2530,6 +2531,13 @@ class binary_reader
             }
 
             return (sax->end_array() && sax->end_object());
+        }
+
+        // If BJData type marker is 'B' decode as binary
+        if (input_format == input_format_t::bjdata && size_and_type.first != npos && size_and_type.second == 'B')
+        {
+            binary_t result;
+            return get_binary(input_format, size_and_type.first, result) && sax->binary(result);
         }
 
         if (size_and_type.first != npos)

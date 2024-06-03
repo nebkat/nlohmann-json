@@ -851,7 +851,7 @@ class binary_writer
                 {
                     JSON_ASSERT(use_count);
                     oa->write_character(to_char_type('$'));
-                    oa->write_character('U');
+                    oa->write_character(use_bjdata ? 'B' : 'U');
                 }
 
                 if (use_count)
@@ -870,7 +870,7 @@ class binary_writer
                 {
                     for (size_t i = 0; i < j.m_data.m_value.binary->size(); ++i)
                     {
-                        oa->write_character(to_char_type('U'));
+                        oa->write_character(to_char_type(use_bjdata ? 'B' : 'U'));
                         oa->write_character(j.m_data.m_value.binary->data()[i]);
                     }
                 }

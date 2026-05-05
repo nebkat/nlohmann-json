@@ -2931,7 +2931,7 @@ class binary_reader
                 success = false;
                 break;
             }
-            result.push_back(static_cast<std::uint8_t>(current));
+            result.push_back(static_cast<std::byte>(current));
         }
         return success;
     }

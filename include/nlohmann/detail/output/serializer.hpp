@@ -274,10 +274,10 @@ class serializer
                         for (auto i = val.m_data.m_value.binary->cbegin();
                                 i != val.m_data.m_value.binary->cend() - 1; ++i)
                         {
-                            dump_integer(*i);
+                            dump_integer(static_cast<uint8_t>(*i));
                             o->write_characters(", ", 2);
                         }
-                        dump_integer(val.m_data.m_value.binary->back());
+                        dump_integer(static_cast<uint8_t>(val.m_data.m_value.binary->back()));
                     }
 
                     o->write_characters("],\n", 3);
@@ -305,10 +305,10 @@ class serializer
                         for (auto i = val.m_data.m_value.binary->cbegin();
                                 i != val.m_data.m_value.binary->cend() - 1; ++i)
                         {
-                            dump_integer(*i);
+                            dump_integer(static_cast<uint8_t>(*i));
                             o->write_character(',');
                         }
-                        dump_integer(val.m_data.m_value.binary->back());
+                        dump_integer(static_cast<uint8_t>(val.m_data.m_value.binary->back()));
                     }
 
                     o->write_characters("],\"subtype\":", 12);

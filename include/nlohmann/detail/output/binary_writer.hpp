@@ -881,7 +881,7 @@ class binary_writer
                     for (size_t i = 0; i < j.m_data.m_value.binary->size(); ++i)
                     {
                         oa->write_character(to_char_type(bjdata_draft3 ? 'B' : 'U'));
-                        oa->write_character(j.m_data.m_value.binary->data()[i]);
+                        oa->write_character(static_cast<uint8_t>(j.m_data.m_value.binary->data()[i]));
                     }
                 }
 
